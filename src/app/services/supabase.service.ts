@@ -39,4 +39,11 @@ export class SupabaseService {
       })
     })
   }
+
+  listItems() {
+    return new Observable((sub) => {
+      this.supabase.from("items").select("*").then(res =>
+        sub.next(res.data))
+    })
+  }
 }

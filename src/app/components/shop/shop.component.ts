@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SupabaseService } from 'src/app/services/supabase.service';
 
 @Component({
   selector: 'app-shop',
@@ -6,5 +7,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent {
+  data?: any = undefined
 
+  constructor(private supabase: SupabaseService) {
+    this.listItems()
+  }
+
+  listItems() {
+    this.supabase.listItems().subscribe(data => {
+      console.log(data)
+      this.data = data
+    })
+  }
 }

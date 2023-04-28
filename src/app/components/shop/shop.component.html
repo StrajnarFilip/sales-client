@@ -1,1 +1,5 @@
 <p>shop works!</p>
+<div *ngFor="let item of data">
+    <h1>{{item.name}}</h1>
+    <p *ngIf="item.description">{{item.description}}</p>
+</div>
