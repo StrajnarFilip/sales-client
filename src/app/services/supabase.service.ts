@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SupabaseService {
-  supabase = createClient("https://qeosutncecrujnpzwmie.supabase.co",
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFlb3N1dG5jZWNydWpucHp3bWllIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI2ODY1OTQsImV4cCI6MTk5ODI2MjU5NH0.tptmdZiw8fWwwS3NLjucEa094A59uy9XFwervMUreIQ')
+  supabase = createClient("https://tgiowkibbduosdckdeiv.supabase.co",
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRnaW93a2liYmR1b3NkY2tkZWl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI3OTQ4MzYsImV4cCI6MTk5ODM3MDgzNn0.7_oWgKrJRBL_P7gKQf3Em6Dc8QxyURamkMnSqesSvj8')
   loggedIn = false
 
   constructor(private router: Router) {
@@ -27,7 +27,7 @@ export class SupabaseService {
     })
   }
 
-  login(email: string, password: string) {
+  signIn(email: string, password: string) {
     return new Observable((sub) => {
       this.supabase.auth.signInWithPassword({
         email: email,
@@ -38,6 +38,12 @@ export class SupabaseService {
           sub.next(response)
         }
       })
+    })
+  }
+
+  signInEmail(email: string) {
+    this.supabase.auth.signInWithOtp({ email: email }).then(response => {
+      console.log("Look in your email")
     })
   }
 

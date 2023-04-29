@@ -13,9 +13,13 @@ export class LoginComponent {
   constructor(private supabase: SupabaseService, private router: Router) { }
 
   logIn() {
-    this.supabase.login(this.email, this.password).subscribe(res => {
+    this.supabase.signIn(this.email, this.password).subscribe(res => {
       console.log("Logged in successfully")
       this.router.navigate(["shop"])
     })
+  }
+  
+  logInEmail() {
+    this.supabase.signInEmail(this.email)
   }
 }

@@ -10,6 +10,15 @@ DROP TABLE IF EXISTS
 DROP TABLE IF EXISTS
   items;
 
+DROP FUNCTION
+  IF EXISTS latest_price;
+
+DROP FUNCTION
+  IF EXISTS new_item;
+
+DROP FUNCTION
+  IF EXISTS latest_item_prices;
+
 CREATE TABLE
   items (
     id BIGSERIAL primary key,
@@ -86,13 +95,44 @@ WITH
 
 -- This function gets latest price (based on timestamp) of item with item_id.
 CREATE
-OR REPLACE function latest_price (item_id bigint) returns setof numeric(16, 4) as $$
+OR REPLACE function latest_price (item_id bigint) returns numeric(16, 4) as $$
   SELECT price FROM prices
   WHERE prices.id =
   (SELECT max(mp.id) FROM
   (SELECT * FROM prices as p WHERE item_id = p.item) as mp);
 $$ language sql;
 
+-- This function gets latest prices of all items.
+CREATE
+OR REPLACE function latest_item_prices () returns TABLE (
+  item_id bigint,
+  item_name TEXT,
+  latest_price numeric(16, 4)
+) as $$
+select
+  items.id, items.name, prices.price
+from
+  (
+    select
+      items.id as item_id,
+      max(prices.id) as price_id
+    from
+      items
+      inner join prices on prices.item = items.id
+    group by
+      items.id
+  ) as latest_ids
+  inner join items on latest_ids.item_id = items.id
+  inner join prices on latest_ids.price_id = prices.id;
+$$ language sql;
+
+-- TESTING
+SELECT
+  *
+from
+  latest_item_prices ();
+
+-- TESTING
 -- This function makes it convenient to add an item and the latest price for it.
 CREATE
 OR REPLACE function new_item (item_name text, initial_price numeric(16, 4)) returns bigint as $$
