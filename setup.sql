@@ -126,13 +126,6 @@ from
   inner join prices on latest_ids.price_id = prices.id;
 $$ language sql;
 
--- TESTING
-SELECT
-  *
-from
-  latest_item_prices ();
-
--- TESTING
 -- This function makes it convenient to add an item and the latest price for it.
 CREATE
 OR REPLACE function new_item (item_name text, initial_price numeric(16, 4)) returns bigint as $$
