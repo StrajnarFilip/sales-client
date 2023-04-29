@@ -72,6 +72,12 @@ CREATE POLICY
 SELECT
   TO public USING (true);
 
+-- Everyone may view all prices
+CREATE POLICY
+  "Enable read access for all users" ON "public"."prices" AS PERMISSIVE FOR
+SELECT
+  TO public USING (true);
+
 -- User may only work on data with their own user id.
 CREATE POLICY
   "User insert sale with their own ID" ON "public"."sales" AS PERMISSIVE FOR ALL TO authenticated

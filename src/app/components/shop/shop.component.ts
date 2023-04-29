@@ -14,7 +14,7 @@ export class ShopComponent {
   }
 
   listItems() {
-    this.supabase.listItems().subscribe(data => {
+    this.supabase.itemsWithLatestPrices().subscribe(data => {
       console.log(data)
       this.data = data
     })

@@ -62,4 +62,15 @@ export class SupabaseService {
       }
     })
   }
+
+  itemsWithLatestPrices(): Observable<any> {
+    return new Observable((sub) => {
+      this.supabase
+        .rpc('latest_item_prices').then(({ data, error }) => {
+          console.log(data, error)
+          if (error === null)
+            sub.next(data)
+        })
+    })
+  }
 }
