@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { createClient, AuthResponse } from '@supabase/supabase-js'
 import { Observable } from 'rxjs';
 
@@ -11,7 +12,7 @@ export class SupabaseService {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFlb3N1dG5jZWNydWpucHp3bWllIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI2ODY1OTQsImV4cCI6MTk5ODI2MjU5NH0.tptmdZiw8fWwwS3NLjucEa094A59uy9XFwervMUreIQ')
   loggedIn = false
 
-  constructor() {
+  constructor(private router: Router) {
     this.supabase.auth.getUser().then(user => {
       this.loggedIn = user.data.user !== null
     })
@@ -44,6 +45,15 @@ export class SupabaseService {
     return new Observable((sub) => {
       this.supabase.from("items").select("*").then(res =>
         sub.next(res.data))
+    })
+  }
+
+  logOut() {
+    this.supabase.auth.signOut().then(response => {
+      if (response.error === null) {
+        this.router.navigate(["login"])
+        this.loggedIn = false
+      }
     })
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { SupabaseService } from 'src/app/services/supabase.service';
 
 @Component({
@@ -9,9 +10,12 @@ import { SupabaseService } from 'src/app/services/supabase.service';
 export class LoginComponent {
   email: string = ""
   password: string = ""
-  constructor(private supabase: SupabaseService) { }
+  constructor(private supabase: SupabaseService, private router: Router) { }
 
   logIn() {
-    this.supabase.login(this.email, this.password).subscribe(res => console.log)
+    this.supabase.login(this.email, this.password).subscribe(res => {
+      console.log("Logged in successfully")
+      this.router.navigate(["shop"])
+    })
   }
 }

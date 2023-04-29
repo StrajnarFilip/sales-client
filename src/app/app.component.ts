@@ -11,4 +11,8 @@ export class AppComponent {
   title = 'sales-client';
 
   constructor(public supabase: SupabaseService, private router: Router) { }
+
+  logOut() {
+    this.supabase.logOut()
+  }
 }
