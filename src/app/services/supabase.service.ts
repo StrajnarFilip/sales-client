@@ -76,7 +76,7 @@ export class SupabaseService {
 
   itemDetails(itemId: number): Observable<any> {
     return new Observable((sub) => {
-      this.supabase.rpc("item_details", {item_id: itemId}).then(({ data, error }) => {
+      this.supabase.rpc("item_details", {iid: itemId}).then(({ data, error }) => {
         if (error === null) {
           sub.next(data)
         }

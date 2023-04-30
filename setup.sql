@@ -146,7 +146,7 @@ $$ language sql;
 -- This function will get all information of an item, as well as it's latest price.
 create
 OR REPLACE function item_details (
-  in item_id bigint,
+  in iid bigint,
   out id bigint,
   out name text,
   out details text,
@@ -160,7 +160,8 @@ li.item_id, items.name, items.details,
 items.description, items.image_url,
 items.time_added, li.latest_price
 from latest_item_prices() as li
-inner join items on items.id = li.item_id;
+inner join items on items.id = li.item_id
+where items.id = iid;
 $$ language sql;
 
 select

@@ -1,5 +1,5 @@
 <p>shop works!</p>
-<div *ngFor="let item of data">
+<a *ngFor="let item of data" [routerLink]="['/','item', item.item_id]">
     <h1>{{item.item_name}}</h1>
     <p>{{item.latest_price}}</p>
-</div>
+</a>
