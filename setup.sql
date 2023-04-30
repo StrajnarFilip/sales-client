@@ -140,6 +140,26 @@ OR REPLACE function new_item (item_name text, initial_price numeric(16, 4)) retu
   select id from items where items.name = item_name;
 $$ language sql;
 
+-- This function will get all information of an item, as well as it's latest price.
+create
+OR REPLACE function item_details (
+  in bigint,
+  out id bigint,
+  out name text,
+  out details text,
+  out description text,
+  out image_url text,
+  out time_added timestamp,
+  out latest_price numeric(16, 4)
+) as $$
+select
+li.item_id, items.name, items.details,
+items.description, items.image_url,
+items.time_added, li.latest_price
+from latest_item_prices() as li
+inner join items on items.id = li.item_id;
+$$ language sql;
+
 select
   *
 from
