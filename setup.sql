@@ -19,6 +19,9 @@ DROP FUNCTION
 DROP FUNCTION
   IF EXISTS latest_item_prices;
 
+DROP FUNCTION
+  IF EXISTS item_details;
+
 CREATE TABLE
   items (
     id BIGSERIAL primary key,
