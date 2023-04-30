@@ -143,7 +143,7 @@ $$ language sql;
 -- This function will get all information of an item, as well as it's latest price.
 create
 OR REPLACE function item_details (
-  in bigint,
+  in item_id bigint,
   out id bigint,
   out name text,
   out details text,

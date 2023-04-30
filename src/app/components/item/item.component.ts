@@ -1,10 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { SupabaseService } from 'src/app/services/supabase.service';
 
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss']
 })
-export class ItemComponent {
+export class ItemComponent implements OnInit {
+  itemData: any
 
+  constructor(private supabase: SupabaseService, private route: ActivatedRoute) { }
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(pMap => {
+      const id = pMap.get("id")
+      if (id) {
+        this.supabase.itemDetails(Number.parseInt(id)).subscribe(data => this.itemData = data)
+      }
+    })
+  }
 }
