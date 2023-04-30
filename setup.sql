@@ -22,6 +22,9 @@ DROP FUNCTION
 DROP FUNCTION
   IF EXISTS item_details;
 
+DROP FUNCTION
+  IF EXISTS ongoing_sale;
+
 CREATE TABLE
   items (
     id BIGSERIAL primary key,
@@ -162,6 +165,20 @@ items.time_added, li.latest_price
 from latest_item_prices() as li
 inner join items on items.id = li.item_id
 where items.id = iid;
+$$ language sql;
+
+create
+OR REPLACE function ongoing_sale (
+  in user_uuid uuid,
+  out sale_id bigint,
+  out user_id uuid,
+  out time_added timestamp
+) as $$
+select sales.id , sales.user_id, sales.time_added from sales
+where sales.id = (
+  select max(sales.id) from sales
+  where sales.user_id = user_uuid and sales.sold = false
+);
 $$ language sql;
 
 select

@@ -76,9 +76,19 @@ export class SupabaseService {
 
   itemDetails(itemId: number): Observable<any> {
     return new Observable((sub) => {
-      this.supabase.rpc("item_details", {iid: itemId}).then(({ data, error }) => {
+      this.supabase.rpc("item_details", { iid: itemId }).then(({ data, error }) => {
         if (error === null) {
           sub.next(data)
+        }
+      })
+    })
+  }
+
+  latestSale(): Observable<any> {
+    return new Observable((sub) => {
+      this.supabase.rpc("ongoing_sale").then(response => {
+        if (response.error === null) {
+          sub.next(response.data)
         }
       })
     })

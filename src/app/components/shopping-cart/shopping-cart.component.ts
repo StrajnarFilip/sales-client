@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SupabaseService } from 'src/app/services/supabase.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./shopping-cart.component.scss']
 })
 export class ShoppingCartComponent {
-
+  constructor(private supabase: SupabaseService) {
+    supabase.latestSale().subscribe(data => {
+      console.log(data)
+    })
+  }
 }
