@@ -87,8 +87,7 @@ SELECT
 -- User may only work on data with their own user id.
 CREATE POLICY
   "User insert sale with their own ID" ON "public"."sales" AS PERMISSIVE FOR ALL TO authenticated
-WITH
-  CHECK (auth.uid () = user_id);
+  USING (auth.uid () = user_id);
 
 -- User may only work on data with their own user id.
 CREATE POLICY

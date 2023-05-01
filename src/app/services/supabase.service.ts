@@ -86,10 +86,12 @@ export class SupabaseService {
 
   latestSale(): Observable<any> {
     return new Observable((sub) => {
-      this.supabase.rpc("ongoing_sale").then(response => {
-        if (response.error === null) {
-          sub.next(response.data)
-        }
+      this.supabase.auth.getUser().then(user => {
+        this.supabase.rpc("ongoing_sale", { user_uuid: user.data.user?.id }).then(response => {
+          if (response.error === null) {
+            sub.next(response.data)
+          }
+        })
       })
     })
   }
