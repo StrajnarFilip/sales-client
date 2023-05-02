@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { createClient, AuthResponse } from '@supabase/supabase-js'
+import { createClient, AuthResponse, PostgrestSingleResponse } from '@supabase/supabase-js'
 import { Observable } from 'rxjs';
 
 
@@ -89,9 +89,30 @@ export class SupabaseService {
       this.supabase.auth.getUser().then(user => {
         this.supabase.rpc("ongoing_sale", { user_uuid: user.data.user?.id }).then(response => {
           if (response.error === null) {
-            sub.next(response.data)
+            if (response.data.sale_id === null) {
+              console.log("Creating new sale")
+              this.createNewSale().subscribe(res => {
+                this.latestSale().subscribe(latest => {
+                  sub.next(latest)
+                })
+              })
+            } else {
+              sub.next(response.data)
+            }
           }
         })
+      })
+    })
+  }
+
+  createNewSale(): Observable<PostgrestSingleResponse<null>> {
+    return new Observable<PostgrestSingleResponse<null>>(sub => {
+      this.supabase.auth.getUser().then(user => {
+        if (user.data.user) {
+          this.supabase.from("sales").insert([{ "user_id": user.data.user.id }]).then(response => {
+            sub.next(response)
+          })
+        }
       })
     })
   }
