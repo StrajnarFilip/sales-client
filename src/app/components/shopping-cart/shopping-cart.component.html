@@ -1,2 +1,8 @@
 <p>shopping-cart works!</p>
 <p *ngIf="data">Sale ID: {{data.sale_id}} User ID: {{data.user_id}} Shopping cart began at: {{data.time_added}}</p>
+<div *ngIf="cart">
+    <div *ngFor="let item of cart">
+        <p>{{item.name}} {{item.quantity}} {{item.id}} {{item.id}} </p>
+        <img *ngIf="item.image_url" [alt]="item.name" [src]="item.image_url">
+    </div>
+</div>
