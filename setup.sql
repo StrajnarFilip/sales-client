@@ -115,7 +115,8 @@ select
         user_id
       from
         sales
-        where item_quantities.sale = sales.id
+      where
+        item_quantities.sale = sales.id
     )
   );
 
