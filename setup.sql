@@ -25,6 +25,9 @@ DROP FUNCTION
 DROP FUNCTION
   IF EXISTS ongoing_sale;
 
+DROP function
+  if exists sale_items;
+
 CREATE TABLE
   items (
     id BIGSERIAL primary key,
@@ -86,8 +89,7 @@ SELECT
 
 -- User may only work on data with their own user id.
 CREATE POLICY
-  "User insert sale with their own ID" ON "public"."sales" AS PERMISSIVE FOR ALL TO authenticated
-  USING (auth.uid () = user_id);
+  "User insert sale with their own ID" ON "public"."sales" AS PERMISSIVE FOR ALL TO authenticated USING (auth.uid () = user_id);
 
 -- User may only work on data with their own user id.
 CREATE POLICY
@@ -178,6 +180,24 @@ where sales.id = (
   select max(sales.id) from sales
   where sales.user_id = user_uuid and sales.sold = false
 );
+$$ language sql;
+
+create
+OR REPLACE function sale_items (in sale_id bigint) returns table (
+  item_quantity_id bigint,
+  quantity numeric(16, 4),
+  name text,
+  image_url text,
+  details text,
+  description text,
+  price numeric(16, 4)
+) as $$
+  SELECT
+  iq.id, iq.quantity, items.name,
+  items.image_url, items.details,
+  items.description, iq.price from item_quantities as iq
+  inner join items on items.id = iq.item
+  WHERE iq.sale = sale_id;
 $$ language sql;
 
 select

@@ -116,4 +116,13 @@ export class SupabaseService {
       })
     })
   }
+
+  addToCart(itemId: number, quantity: number, price: number) {
+    return new Observable<PostgrestSingleResponse<null>>(sub => {
+      this.latestSale().subscribe(sale => {
+        this.supabase.from("item_quantities").insert({ "quantity": quantity, "price": price, "item": itemId, "sale": sale.sale_id })
+          .then(res => sub.next(res))
+      })
+    })
+  }
 }

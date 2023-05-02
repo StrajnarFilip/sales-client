@@ -19,4 +19,10 @@ export class ItemComponent implements OnInit {
       }
     })
   }
+
+  addToCart() {
+    this.supabase.addToCart(this.itemData.id, 1, this.itemData.latest_price).subscribe(res => {
+      console.log(res)
+    })
+  }
 }
