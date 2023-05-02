@@ -8,10 +8,16 @@ import { SupabaseService } from 'src/app/services/supabase.service';
 })
 export class ShoppingCartComponent {
   data?: any
+  cart?: any
   constructor(private supabase: SupabaseService) {
     supabase.latestSale().subscribe(data => {
       console.log(data)
       this.data = data
+    })
+
+    supabase.cartContents().subscribe(cart => {
+      console.log(cart, "cart")
+      this.cart = cart
     })
   }
 }

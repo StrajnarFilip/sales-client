@@ -125,4 +125,16 @@ export class SupabaseService {
       })
     })
   }
+
+  cartContents() {
+    return new Observable<PostgrestSingleResponse<any>>(sub => {
+      this.latestSale().subscribe(sale => {
+        this.supabase.rpc("sale_items", { "input_sale_items": sale.sale_id }).then(res => {
+          if (res.error === null) {
+            sub.next(res.data)
+          }
+        })
+      })
+    })
+  }
 }

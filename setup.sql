@@ -93,7 +93,7 @@ CREATE POLICY
 
 -- User may only work on data with their own user id.
 CREATE POLICY
-  "User insert sale with their own ID" ON "public"."item_quantities" AS PERMISSIVE FOR ALL TO authenticated
+  "User insert sale with their own ID" ON "public"."item_quantities" AS PERMISSIVE FOR INSERT TO authenticated
 WITH
   CHECK (
     auth.uid () = (
@@ -102,7 +102,20 @@ WITH
       FROM
         sales
       WHERE
-        sale = sales.id
+        item_quantities.sale = sales.id
+    )
+  );
+
+create policy
+  "User selects their own items" ON "public"."item_quantities" AS PERMISSIVE for
+select
+  to authenticated using (
+    auth.uid () = (
+      select
+        user_id
+      from
+        sales
+        where item_quantities.sale = sales.id
     )
   );
 
@@ -183,7 +196,7 @@ where sales.id = (
 $$ language sql;
 
 create
-OR REPLACE function sale_items (in sale_id bigint) returns table (
+OR REPLACE function sale_items (in input_sale_items bigint) returns table (
   item_quantity_id bigint,
   quantity numeric(16, 4),
   name text,
@@ -197,7 +210,7 @@ OR REPLACE function sale_items (in sale_id bigint) returns table (
   items.image_url, items.details,
   items.description, iq.price from item_quantities as iq
   inner join items on items.id = iq.item
-  WHERE iq.sale = sale_id;
+  WHERE iq.sale = input_sale_items;
 $$ language sql;
 
 select
