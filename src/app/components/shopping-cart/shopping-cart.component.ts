@@ -8,7 +8,7 @@ import { SupabaseService } from 'src/app/services/supabase.service';
 })
 export class ShoppingCartComponent {
   cart?: Array<any> = []
-  columns: string[] = ["Name", "Quantity", "Price each", "Price total", "Remove from cart"]
+  columns: string[] = ["Image", "Name", "Quantity", "Price each", "Price total", "Remove from cart"]
   totalPrice?: number
 
   constructor(private supabase: SupabaseService) {
