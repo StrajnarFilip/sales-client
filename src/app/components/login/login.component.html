@@ -1,8 +1,25 @@
-<label for="e">Email</label>
-<input type="email" [(ngModel)]="email" name="e"/>
-<br>
-<label for="p">Password</label>
-<input type="password" [(ngModel)]="password" name="p"/>
-<br>
-<button (click)="logIn()">Log in</button>
-<button (click)="logInEmail()">Log in without password</button>
+<p>
+    <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" [(ngModel)]="email">
+        <mat-icon matSuffix>mail</mat-icon>
+    </mat-form-field>
+</p>
+<p>
+    <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" [(ngModel)]="password">
+        <mat-icon matSuffix>lock</mat-icon>
+    </mat-form-field>
+</p>
+<p>
+    <button mat-raised-button (click)="logIn()" [disabled]="!canLogin()" [color]='canEmailLogin() ? "accent" : ""'>
+        Log in
+    </button>
+</p>
+<p>
+    <button mat-raised-button (click)="logInEmail()" [color]='canEmailLogin() ? "accent" : ""'
+        [disabled]="!canEmailLogin()">
+        Log in without password
+    </button>
+</p>

@@ -22,6 +22,11 @@ export class ShoppingCartComponent {
   }
 
   buy() {
-    this.supabase.finalizeSale(this.data.sale_id).subscribe(res => console.log(res))
+    this.supabase.finalizeSale(this.data.sale_id).subscribe(_ => {
+      this.supabase.cartContents().subscribe(cart => {
+        console.log(cart, "cart")
+        this.cart = cart
+      })
+    })
   }
 }

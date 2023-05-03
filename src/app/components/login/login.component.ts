@@ -21,6 +21,22 @@ export class LoginComponent {
     })
   }
 
+  private containsPassword(): boolean {
+    return this.password.length > 0
+  }
+
+  private containsEmail(): boolean {
+    return this.email.match(/^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$/) instanceof Array
+  }
+
+  canLogin() {
+    return this.containsEmail() && this.containsPassword()
+  }
+
+  canEmailLogin() {
+    return this.containsEmail()
+  }
+
   logInEmail() {
     this.supabase.signInEmail(this.email)
   }

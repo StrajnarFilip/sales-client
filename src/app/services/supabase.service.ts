@@ -155,7 +155,9 @@ export class SupabaseService {
         .update({ sold: true })
         .eq('id', saleId)
         .then(res => {
-          sub.next(res)
+          if (res.error === null) {
+            sub.next(res)
+          }
         })
     })
   }
