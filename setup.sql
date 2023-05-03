@@ -133,11 +133,12 @@ $$ language sql;
 CREATE
 OR REPLACE function latest_item_prices () returns TABLE (
   item_id bigint,
+  item_image_url TEXT,
   item_name TEXT,
   latest_price numeric(16, 4)
 ) as $$
 select
-  items.id, items.name, prices.price
+  items.id, items.image_url, items.name, prices.price
 from
   (
     select
