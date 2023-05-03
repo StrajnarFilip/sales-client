@@ -120,6 +120,20 @@ select
     )
   );
 
+create policy
+  "User selects deletes own items" ON "public"."item_quantities" AS PERMISSIVE for
+delete
+  to authenticated using (
+    auth.uid () = (
+      select
+        user_id
+      from
+        sales
+      where
+        item_quantities.sale = sales.id
+    )
+  );
+
 -- This function gets latest price (based on timestamp) of item with item_id.
 CREATE
 OR REPLACE function latest_price (item_id bigint) returns numeric(16, 4) as $$
