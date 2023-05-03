@@ -46,6 +46,9 @@ export class SupabaseService {
       }).then((response) => {
         if (response.error === null) {
           this.statusEmitter.emit(true)
+          this.cartQuantity().subscribe(newQuantity => {
+            this.quantityEmitter.emit(newQuantity)
+          })
           sub.next(response)
         }
       })
@@ -70,6 +73,7 @@ export class SupabaseService {
       if (response.error === null) {
         this.router.navigate(["login"])
         this.statusEmitter.emit(false)
+        this.quantityEmitter.emit(0)
       }
     })
   }
