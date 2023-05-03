@@ -172,4 +172,17 @@ export class SupabaseService {
       })
     })
   }
+
+  removeFromCart(itemQuantityId: number): Observable<number> {
+    return new Observable<number>(sub => {
+      this.supabase.from("item_quantities").delete()
+        .eq('id', itemQuantityId)
+        .then(res => {
+          console.log("re", res, itemQuantityId)
+          if (res.error === null) {
+            sub.next(res.status)
+          }
+        })
+    })
+  }
 }
