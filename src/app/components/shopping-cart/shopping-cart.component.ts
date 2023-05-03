@@ -20,4 +20,8 @@ export class ShoppingCartComponent {
       this.cart = cart
     })
   }
+
+  buy() {
+    this.supabase.finalizeSale(this.data.sale_id).subscribe(res => console.log(res))
+  }
 }

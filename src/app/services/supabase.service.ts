@@ -137,4 +137,16 @@ export class SupabaseService {
       })
     })
   }
+
+  finalizeSale(saleId: number) {
+    return new Observable(sub => {
+      this.supabase
+        .from('sales')
+        .update({ sold: true })
+        .eq('id', saleId)
+        .then(res => {
+          sub.next(res)
+        })
+    })
+  }
 }
