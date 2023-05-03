@@ -4,6 +4,6 @@
             <mat-card-title>{{item.item_name}}</mat-card-title>
             <mat-card-subtitle>Price: {{item.latest_price}} €</mat-card-subtitle>
         </mat-card-header>
-        <img mat-card-image [src]="item.image_url ? item.image_url : '/assets/item.png'" alt="Image of item">
+        <img mat-card-image [src]="item.item_image_url ? item.item_image_url : '/assets/item.png'" alt="Image of item">
     </mat-card>
 </div>
