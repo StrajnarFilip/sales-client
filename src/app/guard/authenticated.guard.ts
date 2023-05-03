@@ -11,9 +11,6 @@ export class AuthenticatedGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log("logged in", this.supabase.loggedIn)
-    if (!this.supabase.loggedIn) { }
-    return this.supabase.loggedIn;
+    return this.supabase.checkLoggedin()
   }
-
 }

@@ -9,10 +9,26 @@ import { SupabaseService } from './services/supabase.service';
 })
 export class AppComponent {
   title = 'sales-client';
+  loggedIn = false
 
-  constructor(public supabase: SupabaseService, private router: Router) { }
+  constructor(public supabase: SupabaseService) {
+    supabase.checkLoggedin().subscribe(res => {
+      this.loggedIn = res
+    })
+
+    supabase.statusEmitter.subscribe(status => {
+      this.loggedIn = status
+    })
+  }
 
   logOut() {
     this.supabase.logOut()
+    this.supabase.checkLoggedin().subscribe(res => {
+      this.loggedIn = res
+    })
+  }
+
+  changeLogin(status: boolean) {
+    this.loggedIn = status
   }
 }

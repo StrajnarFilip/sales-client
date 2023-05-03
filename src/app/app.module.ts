@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +12,8 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
 import { ShopComponent } from './components/shop/shop.component';
 import { FormsModule } from '@angular/forms';
 import { ItemComponent } from './components/item/item.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -17,12 +22,17 @@ import { ItemComponent } from './components/item/item.component';
     RegisterComponent,
     ShoppingCartComponent,
     ShopComponent,
-    ItemComponent
+    ItemComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

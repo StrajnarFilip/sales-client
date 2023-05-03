@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { SupabaseService } from 'src/app/services/supabase.service';
 
@@ -10,15 +10,17 @@ import { SupabaseService } from 'src/app/services/supabase.service';
 export class LoginComponent {
   email: string = ""
   password: string = ""
+
   constructor(private supabase: SupabaseService, private router: Router) { }
 
   logIn() {
     this.supabase.signIn(this.email, this.password).subscribe(res => {
       console.log("Logged in successfully")
+      this.supabase.statusEmitter.emit(true)
       this.router.navigate(["shop"])
     })
   }
-  
+
   logInEmail() {
     this.supabase.signInEmail(this.email)
   }

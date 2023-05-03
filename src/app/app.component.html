@@ -1,9 +1,35 @@
-<div>
-  <a routerLink="/login">Login</a>
-  <a routerLink="/register">Register</a>
-  <a routerLink="/shop">Shop</a>
-  <a routerLink="/shopping-cart">Shopping cart</a>
-  <a (click)="logOut()" *ngIf="supabase.loggedIn">Log out</a>
-</div>
+<mat-toolbar>
+  <a routerLink="/">
+    <img src="/assets/shop.png" alt="Shop">
+  </a>
+  <span class="spacer"></span>
+  <span class="spacer"></span>
+  <button routerLink="/login" mat-raised-button *ngIf="!loggedIn">
+    <mat-icon>login</mat-icon>
+    <span>Login</span>
+  </button>
+  <span class="spacer"></span>
+  <button routerLink="/register" mat-raised-button *ngIf="!loggedIn">
+    <mat-icon>person_add</mat-icon>
+    <span>Register</span>
+  </button>
+  <span class="spacer"></span>
+  <button routerLink="/shop" mat-raised-button *ngIf="loggedIn">
+    <mat-icon>storefront</mat-icon>
+    <span>Shop</span>
+  </button>
+  <span class="spacer"></span>
+  <button routerLink="/shopping-cart" mat-raised-button *ngIf="loggedIn">
+    <mat-icon>shopping_cart</mat-icon>
+    <span>Shopping cart</span>
+  </button>
+  <span class="spacer"></span>
+  <button (click)="logOut()" mat-raised-button *ngIf="loggedIn">
+    <mat-icon>logout</mat-icon>
+    <span>Log out</span>
+  </button>
+</mat-toolbar>
 
-<router-outlet></router-outlet>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
