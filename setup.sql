@@ -120,20 +120,6 @@ select
     )
   );
 
-create policy
-  "User selects deletes own items" ON "public"."item_quantities" AS PERMISSIVE for
-DELETE
-  to authenticated using (
-    auth.uid () = (
-      select
-        user_id
-      from
-        sales
-      where
-        item_quantities.sale = sales.id
-    )
-  );
-
 -- This function gets latest price (based on timestamp) of item with item_id.
 CREATE
 OR REPLACE function latest_price (item_id bigint) returns numeric(16, 4) as $$
@@ -169,8 +155,12 @@ $$ language sql;
 
 -- This function makes it convenient to add an item and the latest price for it.
 CREATE
-OR REPLACE function new_item (item_name text, initial_price numeric(16, 4)) returns bigint as $$
-  insert into items (name) values (item_name);
+OR REPLACE function new_item (
+  item_name text,
+  input_image_url text,
+  initial_price numeric(16, 4)
+) returns bigint as $$
+  insert into items (name, image_url) values (item_name, input_image_url);
   insert into prices (item,price) values ((select id from items where items.name = item_name), initial_price);
   select id from items where items.name = item_name;
 $$ language sql;
@@ -231,24 +221,24 @@ $$ language sql;
 select
   *
 from
-  new_item ('Cheese', 10);
+  new_item ('Cheese', '/assets/cheese.jpg', 10);
 
 select
   *
 from
-  new_item ('Tomato', 1.99);
+  new_item ('Tomato', '/assets/tomato.jpg', 1.99);
 
 select
   *
 from
-  new_item ('Potato', 0.69);
+  new_item ('Potato', '/assets/item.png', 0.69);
 
 select
   *
 from
-  new_item ('Corn', 4.8);
+  new_item ('Corn', '/assets/item.png', 4.8);
 
 select
   *
 from
-  new_item ('Oats', 1.18);
+  new_item ('Oats', '/assets/item.png', 1.18);
