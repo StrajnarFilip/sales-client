@@ -1,5 +1,9 @@
-<p>shop works!</p>
-<a *ngFor="let item of data" [routerLink]="['/','item', item.item_id]">
-    <h1>{{item.item_name}}</h1>
-    <p>{{item.latest_price}}</p>
-</a>
+<div class="flex-container">
+    <mat-card *ngFor="let item of data" [routerLink]="['/','item', item.item_id]">
+        <mat-card-header>
+            <mat-card-title>{{item.item_name}}</mat-card-title>
+            <mat-card-subtitle>Price: {{item.latest_price}} €</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="/assets/item.png" alt="Image of item">
+    </mat-card>
+</div>

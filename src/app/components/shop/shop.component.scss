@@ -1,0 +1,14 @@
+mat-card {
+    max-width: 15em;
+}
+
+img {
+    padding: 2em;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2em;
+}

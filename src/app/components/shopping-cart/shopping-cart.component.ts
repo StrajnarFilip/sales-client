@@ -7,14 +7,8 @@ import { SupabaseService } from 'src/app/services/supabase.service';
   styleUrls: ['./shopping-cart.component.scss']
 })
 export class ShoppingCartComponent {
-  data?: any
-  cart?: any
+  cart?: any = []
   constructor(private supabase: SupabaseService) {
-    supabase.latestSale().subscribe(data => {
-      console.log(data)
-      this.data = data
-    })
-
     supabase.cartContents().subscribe(cart => {
       console.log(cart, "cart")
       this.cart = cart
@@ -22,10 +16,15 @@ export class ShoppingCartComponent {
   }
 
   buy() {
-    this.supabase.finalizeSale(this.data.sale_id).subscribe(_ => {
-      this.supabase.cartContents().subscribe(cart => {
-        console.log(cart, "cart")
-        this.cart = cart
+    this.supabase.latestSale().subscribe(sale => {
+      this.supabase.finalizeSale(sale.sale_id).subscribe(_ => {
+        this.supabase.cartContents().subscribe(cart => {
+          console.log(cart, "cart")
+          this.cart = cart
+          this.supabase.cartQuantity().subscribe(newQuantity => {
+            this.supabase.quantityEmitter.emit(newQuantity)
+          })
+        })
       })
     })
   }

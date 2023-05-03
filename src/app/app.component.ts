@@ -10,14 +10,20 @@ import { SupabaseService } from './services/supabase.service';
 export class AppComponent {
   title = 'sales-client';
   loggedIn = false
+  cartQuantity = 0
 
   constructor(public supabase: SupabaseService) {
+    supabase.cartQuantity().subscribe(amount => this.cartQuantity = amount)
     supabase.checkLoggedin().subscribe(res => {
       this.loggedIn = res
     })
 
     supabase.statusEmitter.subscribe(status => {
       this.loggedIn = status
+    })
+
+    supabase.quantityEmitter.subscribe(newQuantity => {
+      this.cartQuantity = newQuantity
     })
   }
 

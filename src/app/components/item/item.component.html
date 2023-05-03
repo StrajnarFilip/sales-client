@@ -1,8 +1,19 @@
+<!--
+For debugging purposes.
 <p>{{itemData.id}}</p>
-<p>{{itemData.name}}</p>
+<p>{{itemData.time_added}}</p>
+-->
+<h2>{{itemData.name}}</h2>
 <p>{{itemData.details}}</p>
 <p>{{itemData.description}}</p>
-<p>{{itemData.image_url}}</p>
-<p>{{itemData.time_added}}</p>
 <p>{{itemData.latest_price}}</p>
-<button (click)="addToCart()">Add to cart</button>
+<img src="/assets/item.png" [alt]="itemData.name">
+<p>
+    <mat-form-field>
+        <mat-label>Amount:</mat-label>
+        <input type="number" matInput [(ngModel)]="amount">
+    </mat-form-field>
+</p>
+<p>
+    <button mat-raised-button (click)="addToCart()">Add to cart</button>
+</p>

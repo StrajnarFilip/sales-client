@@ -9,6 +9,7 @@ import { SupabaseService } from 'src/app/services/supabase.service';
 })
 export class ItemComponent implements OnInit {
   itemData: any
+  amount: number = 1
 
   constructor(private supabase: SupabaseService, private route: ActivatedRoute) { }
   ngOnInit(): void {
@@ -21,8 +22,10 @@ export class ItemComponent implements OnInit {
   }
 
   addToCart() {
-    this.supabase.addToCart(this.itemData.id, 1, this.itemData.latest_price).subscribe(res => {
-      console.log(res)
+    this.supabase.addToCart(this.itemData.id, this.amount, this.itemData.latest_price).subscribe(res => {
+      this.supabase.cartQuantity().subscribe(newQuantity => {
+        this.supabase.quantityEmitter.emit(newQuantity)
+      })
     })
   }
 }

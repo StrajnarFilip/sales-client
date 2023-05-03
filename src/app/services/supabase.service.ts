@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class SupabaseService {
   statusEmitter = new EventEmitter<boolean>();
+  quantityEmitter = new EventEmitter<number>();
 
   supabase = createClient("https://tgiowkibbduosdckdeiv.supabase.co",
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRnaW93a2liYmR1b3NkY2tkZWl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI3OTQ4MzYsImV4cCI6MTk5ODM3MDgzNn0.7_oWgKrJRBL_P7gKQf3Em6Dc8QxyURamkMnSqesSvj8')
@@ -137,7 +138,7 @@ export class SupabaseService {
   }
 
   cartContents() {
-    return new Observable<PostgrestSingleResponse<any>>(sub => {
+    return new Observable<any>(sub => {
       this.latestSale().subscribe(sale => {
         this.supabase.rpc("sale_items", { "input_sale_items": sale.sale_id }).then(res => {
           if (res.error === null) {
@@ -159,6 +160,16 @@ export class SupabaseService {
             sub.next(res)
           }
         })
+    })
+  }
+
+  cartQuantity(): Observable<number> {
+    return new Observable(sub => {
+      this.cartContents().subscribe(res => {
+        const result = (res.map((items: { quantity: number }) => items.quantity) as Array<number>)
+          .reduce((acc, n, _i, _a) => acc + n, 0)
+        sub.next(result)
+      })
     })
   }
 }
