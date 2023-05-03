@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
