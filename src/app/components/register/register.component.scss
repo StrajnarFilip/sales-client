@@ -1,3 +1,17 @@
-mat-form-field, button {
-    min-width: 30%;
+.center-content {
+    display: flex;
+    justify-content: center;
+}
+
+
+button {
+    width: 100%;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+p {
+    width: 30em;
 }
