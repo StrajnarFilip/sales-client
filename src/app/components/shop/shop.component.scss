@@ -1,9 +1,13 @@
 mat-card {
-    max-width: 15em;
+    max-width: 30em;
+    max-height: 24em;
 }
 
 img {
-    padding: 2em;
+    height: 75%;
+    display: block;
+    padding: 1em;
+    object-fit:scale-down;
 }
 
 .flex-container {

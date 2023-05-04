@@ -3,17 +3,33 @@ For debugging purposes.
 <p>{{itemData.id}}</p>
 <p>{{itemData.time_added}}</p>
 -->
-<h2>{{itemData.name}}</h2>
-<p>{{itemData.details}}</p>
-<p>{{itemData.description}}</p>
-<p>{{itemData.latest_price}} €</p>
-<img [src]="itemData.image_url ? itemData.image_url : '/assets/item.png'" [alt]="itemData.name">
-<p>
-    <mat-form-field>
-        <mat-label>Amount:</mat-label>
-        <input type="number" matInput [(ngModel)]="amount">
-    </mat-form-field>
-</p>
-<p>
-    <button mat-raised-button (click)="addToCart()">Add to cart</button>
-</p>
+<div class="center-content">
+    <div class="center-column">
+        <div class="center-content">
+            <h1>{{itemData.name}}</h1>
+        </div>
+        <div class="center-content">
+            <img [src]="itemData.image_url ? itemData.image_url : '/assets/item.png'" [alt]="itemData.name">
+        </div>
+    </div>
+    <div class="center-column">
+        <div class="center-content">
+            <p>{{itemData.details}}</p>
+        </div>
+        <div class="center-content">
+            <p>{{itemData.description}}</p>
+        </div>
+        <div class="center-content">
+            <p>Price: {{itemData.latest_price}} €</p>
+        </div>
+        <p>
+            <mat-form-field>
+                <mat-label>Amount:</mat-label>
+                <input type="number" matInput [(ngModel)]="amount">
+            </mat-form-field>
+        </p>
+        <p>
+            <button mat-raised-button (click)="addToCart()">Add to cart</button>
+        </p>
+    </div>
+</div>
